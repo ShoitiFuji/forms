@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição Super Inconveniente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .signup-container {
+            background-color: #fff;
+            padding: 20px 30px 30px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 320px;
+            max-width: 100%;
+        }
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: block;
+            color: #333;
+        }
+        #name-display, #email-display {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 1.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            min-height: 30px;
+            background-color: #e9e9e9;
+            text-align: left;
+            word-wrap: break-word;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .keypad button {
+            padding: 15px 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+        }
+        .keypad button:hover {
+            background-color: #e0e0e0;
+        }
+        .keypad button .main-char {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .keypad button .sub-chars {
+            font-size: 0.6em;
+            color: #555;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .controls button {
+            padding: 8px 10px;
+            font-size: 0.8em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #eee;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+        .controls button:hover {
+            background-color: #d5d5d5;
+        }
+        #next-to-phone-btn, #next-to-email-btn, #submit-all-btn, #back-to-name-btn, #back-to-phone-btn {
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #next-to-phone-btn, #next-to-email-btn { background-color: #4CAF50; }
+        #next-to-phone-btn:hover, #next-to-email-btn:hover { background-color: #45a049; }
+        #submit-all-btn { background-color: #007bff; }
+        #submit-all-btn:hover { background-color: #0069d9; }
+        #back-to-name-btn, #back-to-phone-btn { background-color: #6c757d; }
+        #back-to-name-btn:hover, #back-to-phone-btn:hover { background-color: #5a6268; }
+
+        #phone-display-formatted {
+            font-size: 1.4em;
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 2px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            background-color: #e9e9e9;
+            text-align: center;
+            min-height: 30px;
+        }
+        #phone-slider {
+            width: 100%;
+            margin-bottom: 20px;
+            cursor: ew-resize;
+        }
+        .section { display: none; }
+        .section.active { display: block; }
+        .hidden-input {
+            opacity: 0.1;
+            width: 100%;
+            margin-top: 5px;
+            font-size: 0.8em;
+            pointer-events: none;
+        }
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .navigation-buttons button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <!-- Seção do Nome -->
+        <div id="name-section" class="section active">
+            <label for="name-display">Passo 1: Seu Nome (com teclado T9)</label>
+            <div id="name-display"></div>
+            <input type="text" id="real-name-input" name="username" class="hidden-input" readonly placeholder="Nome (T9)">
+
+            <div class="keypad">
+                <button data-key="1" data-chars=".?!1"><span class="main-char">1</span><span class="sub-chars">.,?!</span></button>
+                <button data-key="2" data-chars="abc2áàãâäç"><span class="main-char">2</span><span class="sub-chars">abcáàãâäç</span></button>
+                <button data-key="3" data-chars="def3éèêë"><span class="main-char">3</span><span class="sub-chars">deféèêë</span></button>
+                <button data-key="4" data-chars="ghi4íìîï"><span class="main-char">4</span><span class="sub-chars">ghiíìîï</span></button>
+                <button data-key="5" data-chars="jkl5"><span class="main-char">5</span><span class="sub-chars">jkl</span></button>
+                <button data-key="6" data-chars="mno6óòõôö"><span class="main-char">6</span><span class="sub-chars">mnoóòõôö</span></button>
+                <button data-key="7" data-chars="pqrs7"><span class="main-char">7</span><span class="sub-chars">pqrs</span></button>
+                <button data-key="8" data-chars="tuv8úùûü"><span class="main-char">8</span><span class="sub-chars">tuvúùûü</span></button>
+                <button data-key="9" data-chars="wxyz9"><span class="main-char">9</span><span class="sub-chars">wxyz</span></button>
+                <button data-key="*" data-mode="case"><span class="main-char">*</span><span class="sub-chars">Aa</span></button>
+                <button data-key="0" data-chars=" 0"><span class="main-char">0</span><span class="sub-chars">Espaço</span></button>
+                <button data-key="#" data-mode="symbol"><span class="main-char">#</span><span class="sub-chars">Símb</span></button>
+            </div>
+            <div class="controls">
+                <button id="backspace-btn">Apagar</button>
+                <button id="clear-btn">Limpar</button>
+                <button id="next-char-btn">Commit</button>
+            </div>
+            <div class="navigation-buttons">
+                <button id="next-to-phone-btn">Próximo: Telefone</button>
+            </div>
+        </div>
+
+        <!-- Seção do Telefone -->
+        <div id="phone-section" class="section">
+            <label for="phone-display-formatted">Passo 2: Ajuste seu Telefone</label>
+            <div id="phone-display-formatted">(00) 00000-0000</div>
+            <input type="range" id="phone-slider" min="0" max="10000" value="0">
+            <input type="text" id="real-phone-input" name="phonenumber" class="hidden-input" readonly placeholder="Telefone (slider)">
+            
+            <div class="navigation-buttons">
+                <button id="back-to-name-btn">Voltar: Nome</button>
+                <button id="next-to-email-btn">Próximo: E-mail</button>
+            </div>
+        </div>
+
+        <!-- Nova Seção de E-mail -->
+        <div id="email-section" class="section">
+            <label for="email-display">Passo 3: Seu E-mail (teclado dinâmico)</label>
+            <div id="email-display"></div>
+            <input type="text" id="real-email-input" name="email" class="hidden-input" readonly placeholder="E-mail (dinâmico)">
+            
+            <div class="keypad" id="email-keypad">
+                <!-- As teclas serão geradas dinamicamente pelo JavaScript -->
+            </div>
+            
+            <div class="controls">
+                <button id="email-backspace-btn">Apagar</button>
+                <button id="email-clear-btn">Limpar</button>
+                <button id="shuffle-keys-btn">Embaralhar Teclas</button>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button id="back-to-phone-btn">Voltar: Telefone</button>
+                <button id="submit-all-btn">Concluir Inscrição</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Script da Seção de Nome (T9) ---
+        const nameDisplay = document.getElementById('name-display');
+        const realNameInput = document.getElementById('real-name-input');
+        const keypadButtons = document.querySelectorAll('.keypad button');
+        const backspaceBtn = document.getElementById('backspace-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const nextCharBtn = document.getElementById('next-char-btn');
+
+        let currentName = "";
+        let lastKey = null;
+        let keyPressCount = 0;
+        let charTimeout = null;
+        let currentTempChar = "";
+        let isUpperCase = false;
+
+        const baseKeyMappings = {};
+        keypadButtons.forEach(button => {
+            const key = button.dataset.key;
+            const chars = button.dataset.chars;
+            if (key && chars) {
+                baseKeyMappings[key] = chars;
+            }
+        });
+
+        function getCharsForKey(key) {
+            let chars = baseKeyMappings[key] || "";
+            if (isUpperCase && !['0','1','*','#'].includes(key) && isNaN(parseInt(chars[0]))) {
+                chars = chars.toUpperCase();
+            }
+            return chars;
+        }
+
+        function updateNameDisplay() {
+            nameDisplay.textContent = currentName + currentTempChar;
+            realNameInput.value = currentName + currentTempChar;
+        }
+
+        function commitNameChar() {
+            if (currentTempChar) {
+                currentName += currentTempChar;
+            }
+            currentTempChar = "";
+            lastKey = null;
+            keyPressCount = 0;
+            clearTimeout(charTimeout);
+            updateNameDisplay();
+        }
+
+        keypadButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const key = button.dataset.key;
+                const mode = button.dataset.mode;
+
+                if (mode === 'case') {
+                    isUpperCase = !isUpperCase;
+                    if (currentTempChar && lastKey && baseKeyMappings[lastKey] && !['0','1','*','#'].includes(lastKey)) {
+                        const currentChars = getCharsForKey(lastKey);
+                        if (keyPressCount > 0 && keyPressCount <= currentChars.length) {
+                             currentTempChar = currentChars[keyPressCount - 1];
+                        }
+                    }
+                    updateNameDisplay();
+                    return;
+                }
+                if (mode === 'symbol') {
+                    commitNameChar();
+                    return;
+                }
+
+                const chars = getCharsForKey(key);
+                if (!chars) return;
+
+                clearTimeout(charTimeout);
+
+                if (key === '0') {
+                    commitNameChar();
+                    currentName += baseKeyMappings[key][0] === ' ' ? ' ' : baseKeyMappings[key];
+                    updateNameDisplay();
+                    return;
+                }
+
+                if (lastKey !== key) {
+                    commitNameChar();
+                    lastKey = key;
+                    keyPressCount = 1;
+                    currentTempChar = chars[0];
+                } else {
+                    keyPressCount++;
+                    if (keyPressCount > chars.length) {
+                        keyPressCount = 1;
+                    }
+                    currentTempChar = chars[keyPressCount - 1];
+                }
+                updateNameDisplay();
+                charTimeout = setTimeout(commitNameChar, 1800);
+            });
+        });
+
+        backspaceBtn.addEventListener('click', () => {
+            clearTimeout(charTimeout);
+            if (currentTempChar) {
+                currentTempChar = "";
+            } else if (currentName.length > 0) {
+                currentName = currentName.slice(0, -1);
+            }
+            lastKey = null;
+            keyPressCount = 0;
+            updateNameDisplay();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            clearTimeout(charTimeout);
+            currentName = "";
+            currentTempChar = "";
+            lastKey = null;
+            keyPressCount = 0;
+            updateNameDisplay();
+        });
+
+        nextCharBtn.addEventListener('click', commitNameChar);
+        updateNameDisplay();
+
+        // --- Script de Navegação entre Seções ---
+        const nameSection = document.getElementById('name-section');
+        const phoneSection = document.getElementById('phone-section');
+        const emailSection = document.getElementById('email-section');
+        const nextToPhoneBtn = document.getElementById('next-to-phone-btn');
+        const nextToEmailBtn = document.getElementById('next-to-email-btn');
+        const backToNameBtn = document.getElementById('back-to-name-btn');
+        const backToPhoneBtn = document.getElementById('back-to-phone-btn');
+
+        // --- Script da Seção de Telefone ---
+        const phoneDisplayFormatted = document.getElementById('phone-display-formatted');
+        const phoneSlider = document.getElementById('phone-slider');
+        const realPhoneInput = document.getElementById('real-phone-input');
+
+        function formatPhoneNumber(ddd, part1, part2) {
+            const dddStr = String(ddd).padStart(2, '0');
+            const part1Str = String(part1).padStart(5, '0');
+            const part2Str = String(part2).padStart(4, '0');
+            return `(${dddStr}) ${part1Str}-${part2Str}`;
+        }
+
+        phoneSlider.addEventListener('input', () => {
+            const sliderValue = parseInt(phoneSlider.value);
+            const sliderMax = parseInt(phoneSlider.max);
+
+            let ddd = (sliderValue * 13 + Math.floor(sliderValue / (sliderMax * 0.1 + 1)) * 29 + Math.floor(sliderValue / (sliderMax * 0.5 + 1)) * 7 ) % 100;
+            let part1 = (sliderValue * 101 + Math.floor(sliderValue * 0.3) * 47 + Math.floor(sliderValue / (sliderMax * 0.05 + 1)) * 73) % 100000;
+            
+            if (sliderValue > sliderMax * 0.6 && sliderValue % 3 === 0) {
+                 part1 = 90000 + (part1 % 10000);
+            } else if (sliderValue < sliderMax * 0.2) {
+                 part1 = (sliderValue * 5) % 100000;
+            }
+
+            let part2 = (sliderValue * 79 + Math.floor(sliderValue * 1.2) * 61 + Math.floor(sliderValue / (sliderMax * 0.2 +1)) * 19) % 10000;
+
+            ddd = (ddd < 0) ? (ddd + 100) : ddd;
+            part1 = (part1 < 0) ? (part1 + 100000) : part1;
+            part2 = (part2 < 0) ? (part2 + 10000) : part2;
+
+            const formattedNumber = formatPhoneNumber(ddd, part1, part2);
+            phoneDisplayFormatted.textContent = formattedNumber;
+            realPhoneInput.value = formattedNumber;
+        });
+
+        // --- Script da Seção de E-mail ---
+        const emailDisplay = document.getElementById('email-display');
+        const realEmailInput = document.getElementById('real-email-input');
+        const emailKeypad = document.getElementById('email-keypad');
+        const emailBackspaceBtn = document.getElementById('email-backspace-btn');
+        const emailClearBtn = document.getElementById('email-clear-btn');
+        const shuffleKeysBtn = document.getElementById('shuffle-keys-btn');
+        const submitAllBtn = document.getElementById('submit-all-btn');
+
+        let currentEmail = "";
+        const allChars = "abcdefghijklmnopqrstuvwxyz0123456789._-@";
+
+        function shuffleKeys() {
+            const shuffled = allChars.split('').sort(() => Math.random() - 0.5);
+            emailKeypad.innerHTML = '';
+            
+            shuffled.forEach(char => {
+                const button = document.createElement('button');
+                button.innerHTML = `<span class="main-char">${char}</span>`;
+                button.addEventListener('click', () => {
+                    currentEmail += char;
+                    updateEmailDisplay();
+                    shuffleKeys(); // Embaralha novamente após cada clique
+                });
+                emailKeypad.appendChild(button);
+            });
+        }
+
+        function updateEmailDisplay() {
+            // Mostra apenas parte do e-mail com asteriscos
+            const visiblePart = currentEmail.length > 3 
+                ? currentEmail.substring(0, 3) + '*'.repeat(currentEmail.length - 3)
+                : currentEmail;
+            
+            emailDisplay.textContent = visiblePart;
+            realEmailInput.value = currentEmail;
+        }
+
+        emailBackspaceBtn.addEventListener('click', () => {
+            currentEmail = currentEmail.slice(0, -1);
+            updateEmailDisplay();
+        });
+
+        emailClearBtn.addEventListener('click', () => {
+            currentEmail = "";
+            updateEmailDisplay();
+        });
+
+        shuffleKeysBtn.addEventListener('click', shuffleKeys);
+
+        // --- Navegação entre seções ---
+        nextToPhoneBtn.addEventListener('click', () => {
+            if (realNameInput.value.trim() === "") {
+                alert("Por favor, insira seu nome primeiro!");
+                return;
+            }
+            nameSection.classList.remove('active');
+            phoneSection.classList.add('active');
+            phoneSlider.dispatchEvent(new Event('input'));
+        });
+
+        nextToEmailBtn.addEventListener('click', () => {
+            if (realPhoneInput.value.trim() === "") {
+                alert("Por favor, ajuste seu telefone primeiro!");
+                return;
+            }
+            phoneSection.classList.remove('active');
+            emailSection.classList.add('active');
+            shuffleKeys();
+        });
+
+        backToNameBtn.addEventListener('click', () => {
+            phoneSection.classList.remove('active');
+            nameSection.classList.add('active');
+        });
+
+        backToPhoneBtn.addEventListener('click', () => {
+            emailSection.classList.remove('active');
+            phoneSection.classList.add('active');
+        });
+
+        submitAllBtn.addEventListener('click', () => {
+            if (!currentEmail.includes('@') || !currentEmail.includes('.')) {
+                alert("Por favor, insira um e-mail válido (com @ e .)");
+                return;
+            }
+            
+            alert(`Inscrição (quase) enviada!\n\nNome: ${realNameInput.value}\nTelefone: ${realPhoneInput.value}\nE-mail: ${realEmailInput.value}\n\nIsso foi inconveniente o suficiente?`);
+        });
+
+        // Inicialização
+        nameSection.classList.add('active');
+        if (phoneSection.classList.contains('active')) {
+            phoneSlider.dispatchEvent(new Event('input'));
+        }
+    </script>
+</body>
+</html>
