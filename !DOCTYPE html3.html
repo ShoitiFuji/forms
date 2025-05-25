@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XXIX Fórum Nacional dos Jovens Líderes - REVI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            /* ALTERAÇÃO: Imagem de fundo */
+            background-image: url('https://i.pinimg.com/originals/8c/1c/74/8c1c74c39cb920099011bab3192b72a1.jpg'); /* Ou o link direto que você conseguiu da imagem */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #333; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.92); /* Fundo do container levemente transparente */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Landing Page Styles */
+        #landing-page h1, #landing-page h2 {
+            color: #0056b3; 
+            text-align: center;
+        }
+        #landing-page p {
+            text-align: justify;
+            margin-bottom: 1em;
+        }
+        #landing-page ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
+        .event-details {
+            background-color: rgba(231, 243, 254, 0.9); 
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .event-details strong {
+            color: #004085;
+        }
+        .inscricao-btn {
+            display: block;
+            width: 80%;
+            max-width: 300px;
+            margin: 30px auto;
+            padding: 15px 20px;
+            background-color: #28a745; 
+            color: white;
+            font-size: 1.2em;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .inscricao-btn:hover {
+            background-color: #218838;
+        }
+        .contatos {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgba(248, 249, 250, 0.9); 
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .contatos p { text-align: left; }
+
+        /* Form Styles */
+        #form-container .form-step { 
+             background-color: #fff; 
+        }
+        .form-step {
+            display: none; 
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-step.active {
+            display: block;
+        }
+        .form-step label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .form-step input[type="text"],
+        .form-step input[type="email"],
+        .form-step input[type="number"],
+        .form-step select,
+        .form-step textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-step textarea { 
+            min-height: 80px;
+            resize: vertical;
+        }
+        .form-navigation button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-navigation button:disabled {
+            background-color: #ccc;
+        }
+        .form-navigation button.prev-btn {
+            background-color: #6c757d;
+        }
+
+        /* Specific Inconvenience Styles */
+        #apelido-suggestions { margin-top: -10px; margin-bottom: 10px; font-size:0.9em; color: #dc3545;}
+        #apelido-suggestions button { font-size:0.8em; padding: 2px 5px; margin-left: 5px;}
+        #pronome-select { max-height: 150px; overflow-y: scroll; border: 1px solid #ccc; padding: 5px; margin-bottom:10px;}
+        #pronome-select div { padding: 2px; cursor: pointer; }
+        #gender-canvas-container { margin-bottom: 10px; }
+        #gender-canvas { border: 1px solid black; cursor: crosshair; background-color: #fff; }
+        
+        /* Item 5: RG - Estilo MODIFICADO */
+        #rg-hex-display { 
+            font-family: monospace; 
+            word-break: break-all; 
+            background: #eee; 
+            padding: 10px; 
+            margin-top: 5px; 
+            border: 1px dashed #ccc;
+            min-height: 20px;
+        }
+
+        #dob-calendar { border:1px solid #ccc; padding:10px; margin-bottom:10px; background-color: #fff; }
+        #dob-calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom:5px; }
+        #dob-calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap:2px; text-align:center;}
+        #dob-calendar-days span { padding:5px; background:#eee; }
+        #age-controls { display: flex; align-items: center; gap: 10px; margin-bottom:10px; }
+        #age-display { font-size: 1.5em; font-weight: bold; }
+        #email-char-selects { display: flex; flex-wrap: wrap; gap: 2px; margin-bottom:10px; }
+        #email-char-selects select { width: auto; padding: 5px; font-size: 0.8em; }
+        #telefone-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-width: 150px; margin: 10px auto; }
+        #telefone-keypad button { padding: 10px; font-size: 1em; }
+        #cidade-input { position: relative; }
+        #estado-select-container { margin-bottom: 10px; }
+        #estado-select { font-size: 6px !important; color: #FAFAFA !important; background-color: #FEFEFE; border: 1px solid #F0F0F0; height: 40px; width: 100%; }
+        #estado-select option { font-size: 6px !important; color: #E0E0E0 !important; }
+        #seinen-quiz-modal { display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); background:white; padding:20px; border:1px solid #333; box-shadow: 0 0 10px black; z-index:1000; text-align: center;}
+        #seinen-quiz-options button { margin: 5px; padding: 8px; }
+        #revi-confirm-checkboxes label { display:block; margin-left: 20px; font-weight:normal;}
+        #restricao-alimentar-qual.shrinking-text { transition: font-size 0.5s ease-out; }
+        #remedio-continuo-qual:focus { outline: 2px solid red; }
+        #camiseta-sliders label { font-weight: normal; font-size:0.9em; }
+        #camiseta-preview { width: 150px; height: 150px; border:1px solid #ccc; margin:10px auto; background:#f0f0f0; display:flex; justify-content:center; align-items:center; text-align:center; position:relative; overflow:hidden;}
+        #camiseta-shape { background: #aaa; transition: all 0.2s ease-in-out; position:absolute;}
+        #ano-grupo-slider-value { font-weight: bold; color: #007bff; }
+        #cargo-entidade1-word-area { min-height: 50px; border:1px solid #ccc; padding:5px; margin-bottom:10px; }
+        #cargo-entidade1-word-area span { display:inline-block; margin-right:5px; padding:2px; animation: fadeOut 3s forwards; cursor:pointer;}
+        @keyframes fadeOut { 0% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0.1; } }
+        #cargo-entidade1-word-area span.fixed { animation: none; opacity:1; background-color: #d4edda;}
+        #termos-documento { width: 100%; height: 150px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; font-size: 9px; line-height: 1.2; text-align: justify; background: #f9f9f9; color: #555;}
+        #contato-emergencia-nome-keyboard {display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; padding: 10px; border: 1px dashed #ccc; max-width:300px; justify-content:center;}
+        #contato-emergencia-nome-keyboard button {width: 30px; height: 30px; }
+        .slider-group { display: inline-block; text-align: center; margin: 0 2px;}
+        .slider-group input[type="range"] { width: 50px; display:block; margin: 0 auto 2px auto;}
+        .slider-group .slider-val { font-size: 0.8em; color: #666; }
+        #dificuldades-seinekai-output { min-height: 80px; border: 1px solid #b9b9b9; padding: 10px; font-family: Arial, sans-serif; white-space: pre-wrap; word-wrap: break-word; margin-top: 5px; background-color: #fff; }
+        #dificuldades-seinekai-input { margin-bottom: 0; }
+        #dificuldades-seinekai-output span.annoying-font-1 { font-family: "Comic Sans MS", "Comic Sans", cursive !important; color: #ff00ff !important; }
+        #dificuldades-seinekai-output span.annoying-font-2 { font-family: "Papyrus", fantasy !important; font-weight: bold !important; color: #008000 !important; }
+        #dificuldades-seinekai-output span.annoying-font-3 { font-family: "Impact", fantasy !important; letter-spacing: -1px !important; color: #ff4500 !important; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container" id="landing-page">
+        <img src="https://via.placeholder.com/800x200.png?text=Banner+REVI+2025" alt="Banner REVI 2025" style="width:100%; border-radius: 8px; margin-bottom:20px;">
+
+        <h1>XXIX Fórum Nacional dos Jovens Líderes - REVI 2025: Tecendo Horizontes: Os fios das relações e o sentido de pertencer</h1>
+        <hr>
+
+        <p>Bem-vindo(a) ao <strong>XXIX Fórum Nacional dos Jovens Líderes</strong>, o nosso querido <strong>REVI</strong>! Prepare-se para uma imersão transformadora, onde o desenvolvimento pessoal encontra a força da comunidade para moldar o futuro da liderança jovem.</p>
+        <p>Este ano, sob o tema <strong>"Tecendo Horizontes: Os fios das relações e o sentido de pertencer"</strong>, vamos explorar as conexões que nos fortalecem e o significado de comunidade em nossas vidas. Serão dias de aprendizado intenso, conexões valiosas e experiências que marcarão sua trajetória.</p>
+
+        <div class="event-details">
+            <h2>O que esperar do REVI 2025?</h2>
+            <p><strong>🗓️ Data:</strong> 19 a 23 de novembro de 2025</p>
+            <p><strong>📍 Local:</strong> Pq. Kokushikan - Um ambiente inspirador para novas ideias e amizades!</p>
+            <p><strong>🫂 Organização:</strong> Preparado com carinho pela <a href="#" id="org-link">@comissaodejovensbunkyo</a></p>
+        </div>
+
+        <h2>Por que você NÃO PODE PERDER o REVI?</h2>
+        <ul>
+            <li><strong>Palestras Inspiradoras:</strong> Aprenda com líderes e especialistas que são referência em suas áreas.</li>
+            <li><strong>Workshops Dinâmicos:</strong> Desenvolva habilidades práticas em liderança, comunicação, gestão de projetos e muito mais.</li>
+            <li><strong>Networking Estratégico:</strong> Conecte-se com jovens líderes de todo o país, expanda sua rede de contatos e crie laços duradouros.</li>
+            <li><strong>Cultura e Integração:</strong> Vivencie momentos únicos de intercâmbio cultural e fortaleça o espírito de comunidade.</li>
+            <li><strong>Desenvolvimento Pessoal:</strong> Descubra novas ferramentas para o autoconhecimento e impulsione seu crescimento.</li>
+        </ul>
+
+        <hr>
+        <h2>Inscrições Abertas!</h2>
+        <p>Não fique de fora do maior encontro de jovens líderes! Garanta já a sua vaga e prepare-se para uma experiência inesquecível.</p>
+        <p><strong>Valor da Inscrição:</strong> R$ 170,00<br>
+            <em>(Inclui participação em todas as atividades, material de apoio e certificado)</em>
+        </p>
+
+        <button class="inscricao-btn" id="start-form-btn">INSCREVA-SE</button>
+
+        <div class="contatos">
+            <h3>Dúvidas? Fale com a gente!</h3>
+            <p>A Comissão Organizadora está à disposição para te ajudar:</p>
+            <p><strong>Marcus Vinicius:</strong> (11) 98545-7832</p>
+            <p><strong>Bruna:</strong> (11) 96528-3186</p>
+            <p><strong>Yohanam:</strong> (47) 97745-1428</p>
+            <p>Siga-nos nas redes sociais: <a href="#" id="social-link">@comissaodejovensbunkyo</a></p>
+        </div>
+
+        <footer style="text-align:center; margin-top:30px; font-size:0.8em; color:#444; /* Cor ajustada para melhor leitura sobre fundo de imagem */">
+            <p>© 2025 Comissão de Jovens Bunkyo. Todos os direitos (e algumas dores de cabeça) reservados.</p>
+        </footer>
+    </div>
+
+    <div class="container" id="form-container">
+        <h2>Formulário de Inscrição </h2>
+        <div id="form-steps-wrapper">
+            <div class="form-step" data-step="1">
+                <label for="nome-completo">1. Nome Completo (Digite ao contrário, ele aparecerá na ordem correta):</label>
+                <input type="text" id="nome-completo" name="nome-completo">
+                <p>Ex: para "Ana Silva", digite "avliS anA"</p>
+                <div id="nome-completo-display" style="margin-top:5px; font-weight:bold; color:green;"></div>
+            </div>
+            <div class="form-step" data-step="2">
+                <label for="apelido">2. Apelido (Cuidado com o corretor agressivo!):</label>
+                <input type="text" id="apelido" name="apelido">
+                <div id="apelido-suggestions"></div>
+            </div>
+            <div class="form-step" data-step="3">
+                <label for="pronome">3. Pronome (Boa sorte encontrando o seu!):</label>
+                <div id="pronome-select"> </div>
+                <input type="text" id="pronome-selected-value" name="pronome-final" readonly placeholder="Pronome selecionado aparecerá aqui">
+            </div>
+            <div class="form-step" data-step="4">
+                <label for="gender-canvas">4. Gênero (Desenhe um símbolo que o represente):</label>
+                <div id="gender-canvas-container"> <canvas id="gender-canvas" width="300" height="150"></canvas> </div>
+                <button type="button" id="clear-gender-canvas">Limpar Desenho</button>
+                <input type="hidden" id="gender-drawing-data" name="gender-drawing">
+            </div>
+
+            <div class="form-step" data-step="5">
+                <label for="rg-input-normal">5. RG (Será convertido para Hexadecimal abaixo. Use números e 'X'):</label>
+                <input type="text" id="rg-input-normal" name="rg-normal" placeholder="Digite seu RG aqui (ex: 12345678X)">
+                <label for="rg-hex-display" style="margin-top:10px; font-weight:normal;">Seu RG em Hexadecimal (automático):</label>
+                <div id="rg-hex-display"></div>
+                <input type="hidden" id="rg-hex-final" name="rg-hex-final">
+            </div>
+
+            <div class="form-step" data-step="6">
+                <label>6. Data de Nascimento (Só um mês por vez para trás, começando hoje):</label>
+                <div id="dob-calendar">
+                    <div id="dob-calendar-header">
+                        <button type="button" id="dob-prev-month">< Mês Anterior</button>
+                        <span id="dob-current-month-year">Maio 2025</span>
+                        <button type="button" id="dob-next-month" disabled>Mês Seguinte ></button>
+                    </div>
+                    <div id="dob-calendar-days"> </div>
+                </div>
+                <input type="text" id="data-nascimento-input" name="data-nascimento" readonly placeholder="DD/MM/AAAA">
+            </div>
+            <div class="form-step" data-step="7">
+                <label>7. Idade (Clique "+1" até sua idade. Errou? Reset para 0!):</label>
+                <div id="age-controls">
+                    <button type="button" id="age-increment-btn">+1</button>
+                    <span id="age-display">0</span>
+                    <button type="button" id="age-reset-btn">Resetar para 0</button>
+                </div>
+                <input type="hidden" id="idade-input" name="idade">
+            </div>
+            <div class="form-step" data-step="8">
+                <label>8. E-mail (Um seletor para cada caractere. Paciência!):</label>
+                <div id="email-char-selects"> </div>
+                <input type="text" id="email-preview" name="email-preview" readonly placeholder="Prévia do e-mail">
+                <button type="button" id="add-email-char-select">Adicionar Caractere</button>
+                <button type="button" id="remove-email-char-select">Remover Último</button>
+            </div>
+            <div class="form-step" data-step="9">
+                <label for="telefone-input">9. Telefone de Contato (Teclado numérico embaralhado a cada clique):</label>
+                <input type="text" id="telefone-input" name="telefone" readonly>
+                <div id="telefone-keypad"> </div>
+            </div>
+
+            <div class="form-step" data-step="10">
+                <label for="cidade-input">10. Cidade (Cursor saltitante!):</label>
+                <input type="text" id="cidade-input" name="cidade">
+                
+                <label for="estado-select" style="margin-top:15px;">Estado (Encontre se puder!):</label>
+                <div id="estado-select-container">
+                     <select id="estado-select" name="estado">
+                        </select>
+                </div>
+            </div>
+
+            <div class="form-step" data-step="11">
+                <label for="seinen-entidade">11. Qual seinen/Entidade representa? (Quiz a cada 3 caracteres!):</label>
+                <input type="text" id="seinen-entidade" name="seinen-entidade">
+                <div id="seinen-quiz-modal">
+                    <h4 id="seinen-quiz-question">Pergunta do Quiz:</h4>
+                    <div id="seinen-quiz-options"></div>
+                    <p id="seinen-quiz-feedback"></p>
+                </div>
+            </div>
+            
+            <div class="form-step" data-step="12">
+                <label>12. Já participou de alguma edição da REVI?</label>
+                <div> <input type="radio" id="revi-nao" name="revi-participou" value="nao" checked> <label for="revi-nao" style="font-weight:normal;">Não</label> </div>
+                <div> <input type="radio" id="revi-sim-main" name="revi-participou" value="sim"> <label for="revi-sim-main" style="font-weight:normal;">Sim</label> </div>
+                <div id="revi-confirm-checkboxes" style="display:none; margin-left:20px;">
+                    <input type="checkbox" id="revi-confirm1" name="revi-confirm1"> <label for="revi-confirm1">Tem certeza?</label>
+                    <input type="checkbox" id="revi-confirm2" name="revi-confirm2" disabled> <label for="revi-confirm2">Certeza absoluta mesmo?</label>
+                    <input type="checkbox" id="revi-confirm3" name="revi-confirm3" disabled> <label for="revi-confirm3">Promete de dedinho?</label>
+                </div>
+            </div>
+
+            <div class="form-step" data-step="13">
+                <label>13. Possui alguma restrição alimentar?</label>
+                <select id="restricao-alimentar-select" name="restricao-alimentar-opcao">
+                    <option value="nao">Não</option>
+                    <option value="sim">Sim</option>
+                </select>
+                <div id="restricao-alimentar-detalhes" style="display:none;">
+                    <label for="restricao-alimentar-qual">Se sim, qual? (Máx. 30 chars, fonte diminui):</label>
+                    <input type="text" id="restricao-alimentar-qual" name="restricao-alimentar-qual" maxlength="30">
+                </div>
+            </div>
+
+            <div class="form-step" data-step="14">
+                <label>14. Possui alguma alergia?</label>
+                <select id="alergia-select" name="alergia-opcao"> <option value="nao">Não</option> <option value="sim">Sim</option> </select>
+                <div id="alergia-detalhes" style="display:none;">
+                    <label for="alergia-qual">Se sim, qual? (Seu segredo estará seguro conosco *pisca*):</label>
+                    <input type="text" id="alergia-qual" name="alergia-qual-display" placeholder="Digite aqui, mas não vai dar pra ler">
+                </div>
+            </div>
+            <div class="form-step" data-step="15">
+                <label>15. Toma remédio de uso contínuo?</label>
+                <select id="remedio-continuo-select" name="remedio-continuo-opcao"> <option value="nao">Não</option> <option value="sim">Sim</option> </select>
+                <div id="remedio-continuo-detalhes" style="display:none;">
+                    <label for="remedio-continuo-qual">Se sim, qual? (Mantenha o mouse em movimento DENTRO do campo para digitar!):</label>
+                    <input type="text" id="remedio-continuo-qual" name="remedio-continuo-qual">
+                    <p id="remedio-mouse-status" style="font-size:0.8em; color:red;"></p>
+                </div>
+            </div>
+            <div class="form-step" data-step="16">
+                <label>16. Tamanho da Camiseta (Ajuste o manequim até ficar "aceitável"):</label>
+                <div id="camiseta-preview"> <div id="camiseta-shape">Camiseta</div> </div>
+                <div id="camiseta-sliders">
+                    <div><label for="slider-ombros">Ombros:</label> Pouco <input type="range" id="slider-ombros" min="20" max="100" value="50"> Muito</div>
+                    <div><label for="slider-peito">Peito/Largura:</label> Pouco <input type="range" id="slider-peito" min="20" max="100" value="50"> Muito</div>
+                    <div><label for="slider-comprimento">Comprimento:</label> Pouco <input type="range" id="slider-comprimento" min="30" max="100" value="60"> Muito</div>
+                    <div><label for="slider-mangas">Mangas:</label> Pouco <input type="range" id="slider-mangas" min="10" max="80" value="30"> Muito</div>
+                    <div><label for="slider-gola">Gola:</label> Pouco <input type="range" id="slider-gola" min="10" max="50" value="20"> Muito</div>
+                </div>
+                <input type="hidden" name="camiseta-config" id="camiseta-config-input">
+            </div>
+            <div class="form-step" data-step="17">
+                <label for="ano-grupo-slider">17. Em qual ano começou a participar do grupo? (Slider sensível, de 1950 a 2025):</label>
+                <input type="range" id="ano-grupo-slider" name="ano-grupo-slider" min="1950" max="2025" value="2000" style="width:100%;">
+                <p>Ano selecionado: <span id="ano-grupo-slider-value" style="font-size:0.7em; color:#666;">2000</span></p>
+            </div>
+            <div class="form-step" data-step="18">
+                <label for="cargo-entidade1">18. Qual é, ou qual foi, seu cargo dentro da entidade? (Palavras somem se não fixadas!):</label>
+                <input type="text" id="cargo-entidade1-input" placeholder="Digite palavra por palavra aqui...">
+                <button type="button" id="cargo-entidade1-add-word">Adicionar Palavra</button>
+                <div id="cargo-entidade1-word-area"> </div>
+                <input type="hidden" id="cargo-entidade1-final" name="cargo-entidade1">
+            </div>
+            
+            <div class="form-step" data-step="19">
+                <label>19. Declara que leu as informações acima, e concorda com os termos?</label>
+                <div id="termos-documento"> Artigo I - Das Partes... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. ... (MUITO TEXTO AQUI, incluindo "RESPONSABILIDADE" várias vezes no Artigo IV, Seção 3) ... Artigo IV ... Seção 3 ... A primeira RESPONSABILIDADE é... Outra RESPONSABILIDADE importante... E também a RESPONSABILIDADE final... não se esqueça da RESPONSABILIDADE principal... e a RESPONSABILIDADE acessória... nem da penúltima RESPONSABILIDADE... e muito menos da RESPONSABILIDADE derradeira. ... (MAIS TEXTO) ... FIM DOS TERMOS. </div>
+                <label for="termos-palavra-count">Para validar sua leitura atenta, por favor, conte e insira abaixo quantas vezes a palavra 'RESPONSABILIDADE' (exatamente assim, em maiúsculas) aparece no Artigo IV, Seção 3 dos Termos e Condições acima.</label>
+                <input type="number" id="termos-palavra-count" name="termos-palavra-count" min="0">
+                <p id="termos-feedback" style="color:red; font-size:0.9em;"></p>
+                <div> <input type="checkbox" id="termos-concordo" name="termos-concordo" value="concordo" disabled> <label for="termos-concordo" style="font-weight:normal;">Declaro que li e concordo com os termos (e contei corretamente).</label> </div>
+            </div>
+
+            <div class="form-step" data-step="20">
+                <label for="contato-emergencia-nome">20. Contato de Emergência - Nome (Use o teclado virtual maluco):</label>
+                <input type="text" id="contato-emergencia-nome" name="contato-emergencia-nome" readonly>
+                <div id="contato-emergencia-nome-keyboard"> </div>
+                <button type="button" id="contato-emergencia-nome-backspace">Apagar (Nome)</button>
+                <label for="contato-emergencia-telefone-slider0" style="margin-top:15px;">Contato de Emergência - Telefone (11 sliders sensíveis):</label>
+                <div id="contato-emergencia-telefone-sliders">
+                    ( <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider0" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider1" min="0" max="9" value="0"><span class="slider-val">0</span></span> ) 
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider2" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider3" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider4" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider5" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider6" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    -
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider7" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider8" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider9" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                    <span class="slider-group"><input type="range" id="contato-emergencia-telefone-slider10" min="0" max="9" value="0"><span class="slider-val">0</span></span>
+                </div>
+                <input type="text" id="contato-emergencia-telefone-preview" name="contato-emergencia-telefone" readonly style="margin-top:5px;">
+            </div>
+
+            <div class="form-step" data-step="21">
+                <label for="dificuldades-seinekai-input">21. Dificuldades enfrentadas no seu seinekai (Palavras podem mudar de fonte!):</label>
+                <input type="text" id="dificuldades-seinekai-input" placeholder="Digite aqui e pressione espaço/ponto para ver a mágica...">
+                <div id="dificuldades-seinekai-output" contenteditable="false" aria-live="polite"></div> 
+                <input type="hidden" id="dificuldades-seinekai-hidden" name="dificuldades-seinekai">
+            </div>
+
+            <div class="form-navigation">
+                <button type="button" id="prev-btn" class="prev-btn" disabled>Anterior (Sem chance!)</button>
+                <button type="button" id="next-btn">Próximo</button>
+                <button type="button" id="submit-form-btn" style="display:none; background-color: #28a745;">Enviar Inscrição (Se conseguir!)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const landingPage = document.getElementById('landing-page');
+        const formContainer = document.getElementById('form-container');
+        const startFormBtn = document.getElementById('start-form-btn');
+        const formSteps = Array.from(document.querySelectorAll('.form-step'));
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitFormBtn = document.getElementById('submit-form-btn');
+        
+        let currentStep = 0;
+        const formData = {}; 
+
+        function showStep(stepIndex) {
+            formSteps.forEach((step, index) => {
+                step.classList.toggle('active', index === stepIndex);
+            });
+            prevBtn.disabled = stepIndex === 0; // Habilitar/desabilitar botão anterior se desejado
+            nextBtn.style.display = stepIndex === formSteps.length - 1 ? 'none' : 'inline-block';
+            submitFormBtn.style.display = stepIndex === formSteps.length - 1 ? 'inline-block' : 'none';
+
+            const currentStepElement = formSteps[stepIndex];
+            const stepNumber = parseInt(currentStepElement.dataset.step);
+            if (stepInitializers[stepNumber]) {
+                stepInitializers[stepNumber]();
+            }
+        }
+
+        function saveStepData(stepIndex) {
+            const currentStepElement = formSteps[stepIndex];
+            const inputs = currentStepElement.querySelectorAll('input[type="text"]:not([readonly]), input[type="number"], input[type="hidden"], input[type="email"], select, textarea');
+            
+            inputs.forEach(input => {
+                if (input.name) {
+                    formData[input.name] = input.value;
+                }
+            });
+
+            const checkRadios = currentStepElement.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+            checkRadios.forEach(cr => {
+                if (cr.name) {
+                    if (cr.type === 'checkbox') {
+                        if (!formData[cr.name] && cr.value) formData[cr.name] = []; 
+                        else if (!formData[cr.name] && !cr.value) formData[cr.name] = false;
+
+
+                        if (cr.checked) {
+                            if(cr.value) { // Se tem valor, é um grupo
+                                if (Array.isArray(formData[cr.name]) && !formData[cr.name].includes(cr.value)) {
+                                    formData[cr.name].push(cr.value);
+                                } else if (!Array.isArray(formData[cr.name])) { // Primeiro item do grupo
+                                     formData[cr.name] = [cr.value];
+                                }
+                            } else { // Checkbox único (booleano)
+                                formData[cr.name] = true;
+                            }
+                        } else {
+                            if(cr.value) {
+                                if (Array.isArray(formData[cr.name])) {
+                                    formData[cr.name] = formData[cr.name].filter(val => val !== cr.value);
+                                }
+                            } else {
+                                formData[cr.name] = false;
+                            }
+                        }
+                    } else if (cr.type === 'radio') {
+                        if (cr.checked) {
+                            formData[cr.name] = cr.value;
+                        }
+                    }
+                }
+            });
+
+
+            const stepNumber = parseInt(currentStepElement.dataset.step);
+            if (stepSavers[stepNumber]) {
+                stepSavers[stepNumber](); 
+            }
+            console.log(`Dados salvos (Passo ${stepNumber}):`, JSON.parse(JSON.stringify(formData)));
+        }
+
+
+        startFormBtn.addEventListener('click', () => {
+            landingPage.style.display = 'none';
+            formContainer.style.display = 'block';
+            for (const key in formData) { delete formData[key]; } 
+            currentStep = 0;
+            formSteps.forEach(step => {
+                step.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], textarea, input[type="hidden"]').forEach(input => {
+                    if(input.id !== 'pronome-selected-value' && input.id !== 'gender-drawing-data' && input.id !== 'rg-hex-final' && input.id !== 'data-nascimento-input' && input.id !== 'idade-input' && input.id !== 'email-preview' && input.id !== 'telefone-input' && input.id !== 'camiseta-config-input' && input.id !== 'cargo-entidade1-final' && input.id !== 'contato-emergencia-nome' && input.id !== 'contato-emergencia-telefone-preview' && input.id !== 'dificuldades-seinekai-hidden' ){
+                        input.value = ''; // Limpa a maioria dos inputs
+                    }
+                });
+                 step.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => input.checked = false);
+                 step.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+                 if (document.getElementById('nome-completo-display')) document.getElementById('nome-completo-display').textContent = '';
+                 if (document.getElementById('apelido-suggestions')) document.getElementById('apelido-suggestions').innerHTML = '';
+                 if (document.getElementById('pronome-selected-value')) document.getElementById('pronome-selected-value').value = '';
+                 if (document.getElementById('rg-hex-display')) document.getElementById('rg-hex-display').textContent = '';
+                 if (document.getElementById('age-display')) document.getElementById('age-display').textContent = '0';
+                 if (document.getElementById('dificuldades-seinekai-output')) document.getElementById('dificuldades-seinekai-output').innerHTML = '';
+                 // Reset específico para REVI radio buttons
+                 const reviNaoRadioEl = document.getElementById('revi-nao');
+                 if (reviNaoRadioEl) reviNaoRadioEl.checked = true;
+                 const reviConfirmCheckboxesDivEl = document.getElementById('revi-confirm-checkboxes');
+                 if (reviConfirmCheckboxesDivEl) reviConfirmCheckboxesDivEl.style.display = 'none';
+            });
+            showStep(currentStep);
+        });
+        
+        prevBtn.title = "Voltar? Sem chance!"; 
+        prevBtn.addEventListener('click', () => { // Funcionalidade do botão Anterior (se quiser habilitar)
+            if (currentStep > 0) {
+                // Não salvar ao voltar, para mais inconveniência
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+
+        nextBtn.addEventListener('click', () => {
+            saveStepData(currentStep); 
+            if (currentStep < formSteps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+
+        submitFormBtn.addEventListener('click', () => {
+            saveStepData(currentStep); 
+            alert('Parabéns, você sobreviveu ao formulário mais inconveniente da sua vida!\nSeus dados (dolorosamente coletados) foram:\n' + JSON.stringify(formData, null, 2) + '\n\n(Na verdade, nada foi enviado. Isto é apenas uma simulação divertida!)');
+            console.log('Formulário finalizado:', formData);
+            window.location.reload(); 
+        });
+
+        const stepInitializers = {};
+        const stepSavers = {};
+
+        // --- Lógica específica para cada inconveniência (MODIFICADA/ADICIONADA) ---
+
+        // Passo 1: Nome Completo
+        const nomeCompletoInput = document.getElementById('nome-completo');
+        const nomeCompletoDisplay = document.getElementById('nome-completo-display');
+        nomeCompletoInput.addEventListener('input', () => {
+            const typedValue = nomeCompletoInput.value;
+            const reversedValue = typedValue.split('').reverse().join('');
+            nomeCompletoDisplay.textContent = reversedValue;
+        });
+        stepSavers[1] = () => { 
+            formData['nome-completo-digitado'] = nomeCompletoInput.value; 
+            formData['nome-completo-corrigido'] = nomeCompletoDisplay.textContent; 
+        }
+
+        // Passo 2: Apelido
+        const apelidoInput = document.getElementById('apelido');
+        const apelidoSuggestionsDiv = document.getElementById('apelido-suggestions');
+        const sillyNicknames = ["Batata Estelar", "Lorde Fluffykins", "Agente Secreto Cenoura", "Doutor Risadinha", "Capitão Meias Furadas", "Princesa Purpurina"];
+        apelidoInput.addEventListener('input', () => {
+            const currentVal = apelidoInput.value;
+            apelidoSuggestionsDiv.innerHTML = ''; 
+            if (currentVal.length > 2 && Math.random() < 0.4) {
+                const suggestion = sillyNicknames[Math.floor(Math.random() * sillyNicknames.length)];
+                apelidoSuggestionsDiv.innerHTML = `Sugestão inconveniente: <strong>${suggestion}</strong> <button type="button" onclick="document.getElementById('apelido').value='${suggestion}'; document.getElementById('apelido-suggestions').innerHTML='';">Usar</button> <button type="button" onclick="document.getElementById('apelido-suggestions').innerHTML='';">Ignorar</button>`;
+            }
+        });
+        
+        // Passo 3: Pronome
+        const pronomeSelectDiv = document.getElementById('pronome-select');
+        const pronomeSelectedValueInput = document.getElementById('pronome-selected-value');
+        const pronomes = [ "Ela/Dela", "Ele/Dele", "Elu/Delu", "Ze/Zir", "Xe/Xer", "Voi/Void", "Fae/Faer", "Sol/Solis", "Lunae/Luna", "Ignis/Igni", "គាត់/របស់គាត់", "Он/Его", "彼女/彼女の", "هو/له", "A Estrela Cadente/Da Estrela Cadente", "O Rio que Flui/Do Rio que Flui", "A Montanha Silenciosa/Da Montanha Silenciosa", "?", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "=", "-", "O Programador/Do Programador", "A Lógica/Da Lógica", "O Algoritmo/Do Algoritmo", "Um/De Um", "Nenhum/De Nenhum", "Qualquer/De Qualquer" ];
+        stepInitializers[3] = () => {
+            if (pronomeSelectDiv.childElementCount === 0) { 
+                const shuffledPronomes = [...pronomes].sort(() => 0.5 - Math.random());
+                shuffledPronomes.forEach(p => {
+                    const optDiv = document.createElement('div'); 
+                    optDiv.textContent = p;
+                    optDiv.style.padding = Math.floor(Math.random()*5 + 3) + "px"; 
+                    optDiv.style.fontSize = Math.floor(Math.random()*7 + 8) + "px"; 
+                    optDiv.style.fontFamily = Math.random() < 0.3 ? "Papyrus, fantasy" : (Math.random() < 0.5 ? "Comic Sans MS, cursive" : "Times New Roman, serif");
+                    optDiv.style.transform = `rotate(${Math.floor(Math.random()*12 - 6)}deg) translateX(${Math.floor(Math.random()*10-5)}px)`; 
+                    optDiv.style.margin = "2px";
+                    optDiv.style.border = "1px dotted #ccc";
+                    optDiv.style.backgroundColor = `hsl(${Math.random()*360}, 50%, 95%)`;
+                    optDiv.style.cursor = 'pointer';
+                    optDiv.onclick = () => { pronomeSelectedValueInput.value = p; }; 
+                    pronomeSelectDiv.appendChild(optDiv);
+                });
+            }
+        };
+
+        // Passo 4: Gênero
+        const genderCanvas = document.getElementById('gender-canvas');
+        const clearGenderCanvasBtn = document.getElementById('clear-gender-canvas');
+        const genderDrawingDataInput = document.getElementById('gender-drawing-data');
+        let ctxGender, drawingGender = false;
+        stepInitializers[4] = () => {
+            if (!ctxGender) { 
+                ctxGender = genderCanvas.getContext('2d');
+                ctxGender.strokeStyle = "#000";
+                ctxGender.lineWidth = 3;
+                genderCanvas.addEventListener('mousedown', (e) => { drawingGender = true; ctxGender.beginPath(); ctxGender.moveTo(e.offsetX, e.offsetY); });
+                genderCanvas.addEventListener('mousemove', (e) => { if (drawingGender) { ctxGender.lineTo(e.offsetX, e.offsetY); ctxGender.stroke(); } });
+                const onMouseUpOrLeave = () => { drawingGender = false; if (genderCanvas.toDataURL) {genderDrawingDataInput.value = genderCanvas.toDataURL().substring(0,50) + "..."; }};
+                genderCanvas.addEventListener('mouseup', onMouseUpOrLeave);
+                genderCanvas.addEventListener('mouseleave', onMouseUpOrLeave);
+                clearGenderCanvasBtn.addEventListener('click', () => {ctxGender.clearRect(0, 0, genderCanvas.width, genderCanvas.height); genderDrawingDataInput.value="";});
+            } else { 
+                 ctxGender.clearRect(0, 0, genderCanvas.width, genderCanvas.height);
+                 genderDrawingDataInput.value="";
+            }
+        };
+        stepSavers[4] = () => { if (genderDrawingDataInput.value) {formData['gender-drawing-simulated'] = genderDrawingDataInput.value;} }
+
+
+        // Passo 5: RG - MODIFICADO LÓGICA
+        const rgInputNormal = document.getElementById('rg-input-normal');
+        const rgHexDisplay = document.getElementById('rg-hex-display');
+        const rgHexFinalInput = document.getElementById('rg-hex-final');
+
+        rgInputNormal.addEventListener('input', () => {
+            const valorRg = rgInputNormal.value.toUpperCase();
+            let hexString = "";
+            for (let i = 0; i < valorRg.length; i++) {
+                const char = valorRg[i];
+                if ((char >= '0' && char <= '9') || char === 'X') {
+                    hexString += char.charCodeAt(0).toString(16).toUpperCase();
+                }
+                // Outros caracteres (pontos, hifens) são ignorados na conversão para o display HEX
+            }
+            rgHexDisplay.textContent = hexString;
+            rgHexFinalInput.value = hexString; // Salva o valor hexadecimal
+        });
+        stepInitializers[5] = () => { // Limpar ao entrar no passo
+            rgInputNormal.value = formData['rg-normal'] || ''; // Mantém o que o usuário digitou se voltar
+            const initialHex = formData['rg-hex-final'] || '';
+            rgHexDisplay.textContent = initialHex;
+            rgHexFinalInput.value = initialHex;
+        };
+        stepSavers[5] = () => {
+            // formData['rg-normal'] já é salvo pelo saveStepData genérico
+            formData['rg-hex-final'] = rgHexFinalInput.value;
+        }
+        
+        // Passo 6: Data de Nascimento
+        const dobPrevMonthBtn = document.getElementById('dob-prev-month');
+        const dobNextMonthBtn = document.getElementById('dob-next-month'); 
+        const dobCurrentMonthYearSpan = document.getElementById('dob-current-month-year');
+        const dobCalendarDaysDiv = document.getElementById('dob-calendar-days');
+        const dataNascimentoInput = document.getElementById('data-nascimento-input');
+        let dobCurrentDate; 
+
+        function renderDOBCalendar() {
+            dobCalendarDaysDiv.innerHTML = '';
+            const year = dobCurrentDate.getFullYear();
+            const month = dobCurrentDate.getMonth(); 
+            dobCurrentMonthYearSpan.textContent = `${dobCurrentDate.toLocaleString('pt-BR', { month: 'long' })} ${year}`;
+            const firstDayOfWeek = new Date(year, month, 1).getDay(); 
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            for(let i=0; i<firstDayOfWeek; i++) { dobCalendarDaysDiv.appendChild(document.createElement('span')); }
+            for(let day=1; day<=daysInMonth; day++) {
+                const daySpan = document.createElement('span');
+                daySpan.textContent = day; daySpan.style.cursor = "pointer";
+                daySpan.onclick = () => { dataNascimentoInput.value = `${String(day).padStart(2,'0')}/${String(month+1).padStart(2,'0')}/${year}`; };
+                dobCalendarDaysDiv.appendChild(daySpan);
+            }
+            const todayForCalendarLimit = new Date(2025, 4, 1); 
+            dobNextMonthBtn.disabled = (dobCurrentDate.getFullYear() === todayForCalendarLimit.getFullYear() && dobCurrentDate.getMonth() === todayForCalendarLimit.getMonth());
+        }
+        dobPrevMonthBtn.addEventListener('click', () => { dobCurrentDate.setMonth(dobCurrentDate.getMonth() - 1); renderDOBCalendar(); });
+        dobNextMonthBtn.addEventListener('click', () => { const todayForCalendarLimit = new Date(2025, 4, 1); if (dobCurrentDate < todayForCalendarLimit) { dobCurrentDate.setMonth(dobCurrentDate.getMonth() + 1); renderDOBCalendar(); } });
+        stepInitializers[6] = () => {
+            const existingDob = formData['data-nascimento'];
+            if (existingDob) {
+                const parts = existingDob.split('/');
+                if (parts.length === 3) {
+                    dobCurrentDate = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+                } else {
+                     dobCurrentDate = new Date(2025, 4, 25); 
+                }
+            } else {
+                dobCurrentDate = new Date(2025, 4, 25); 
+            }
+            dataNascimentoInput.value = existingDob || ''; 
+            renderDOBCalendar();
+        };
+
+        // Passo 7: Idade
+        const ageIncrementBtn = document.getElementById('age-increment-btn');
+        const ageDisplaySpan = document.getElementById('age-display');
+        const ageResetBtn = document.getElementById('age-reset-btn');
+        const idadeHiddenInput = document.getElementById('idade-input');
+        let currentAgeVal = 0; 
+        stepInitializers[7] = () => { 
+            currentAgeVal = parseInt(idadeHiddenInput.value) || 0; 
+            ageDisplaySpan.textContent = currentAgeVal;
+        };
+        ageIncrementBtn.addEventListener('click', () => { currentAgeVal++; ageDisplaySpan.textContent = currentAgeVal; idadeHiddenInput.value = currentAgeVal; });
+        ageResetBtn.addEventListener('click', () => { currentAgeVal = 0; ageDisplaySpan.textContent = currentAgeVal; idadeHiddenInput.value = currentAgeVal; });
+
+        // Passo 8: E-mail
+        const emailCharSelectsDiv = document.getElementById('email-char-selects');
+        const addEmailCharBtn = document.getElementById('add-email-char-select');
+        const removeEmailCharBtn = document.getElementById('remove-email-char-select');
+        const emailPreviewInput = document.getElementById('email-preview');
+        const emailCharsList = "abcdefghijklmnopqrstuvwxyz0123456789.@-_".split(''); 
+        let emailSelectCount = 5; 
+
+        function renderEmailSelects() { 
+            emailCharSelectsDiv.innerHTML = '';
+            const currentEmailVal = emailPreviewInput.value || formData['email-final'] || '';
+            for(let i=0; i<emailSelectCount; i++) {
+                const select = document.createElement('select');
+                select.dataset.index = i;
+                emailCharsList.forEach(char => {
+                    const option = document.createElement('option');
+                    option.value = char; option.textContent = char;
+                    if (currentEmailVal[i] === char) option.selected = true;
+                    select.appendChild(option);
+                });
+                select.addEventListener('change', updateEmailPreview);
+                emailCharSelectsDiv.appendChild(select);
+            }
+            updateEmailPreview(); // Atualiza a prévia com os valores carregados
+        }
+        function updateEmailPreview() { 
+            let currentEmail = ""; 
+            emailCharSelectsDiv.querySelectorAll('select').forEach(sel => currentEmail += sel.value); 
+            emailPreviewInput.value = currentEmail; 
+        }
+        addEmailCharBtn.addEventListener('click', () => { emailSelectCount = Math.min(40, emailSelectCount + 1); renderEmailSelects(); }); 
+        removeEmailCharBtn.addEventListener('click', () => { 
+            if(emailSelectCount>1) {
+                emailSelectCount--; 
+                renderEmailSelects();
+            } 
+        });
+        stepInitializers[8] = () => {
+            const existingEmail = formData['email-final'] || '';
+            emailSelectCount = existingEmail ? Math.max(5, existingEmail.length) : 5;
+            renderEmailSelects();
+        };
+        stepSavers[8] = () => { formData['email-final'] = emailPreviewInput.value; }
+
+        // Passo 9: Telefone
+        const telefoneInput = document.getElementById('telefone-input');
+        const telefoneKeypadDiv = document.getElementById('telefone-keypad');
+        let telDigitsList = "0123456789".split(''); 
+
+        function shuffleTelDigits() { for (let i = telDigitsList.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [telDigitsList[i], telDigitsList[j]] = [telDigitsList[j], telDigitsList[i]]; } }
+        function renderTelefoneKeypad() {  
+            shuffleTelDigits();
+            telefoneKeypadDiv.innerHTML = '';
+            const displayDigitsAndBackspace = [...telDigitsList.slice(0,9), '⌫', telDigitsList[9], ' ']; 
+            displayDigitsAndBackspace.forEach(digit => {
+                const btn = document.createElement('button');
+                btn.textContent = digit; btn.type = "button";
+                if (digit === " ") { btn.disabled = true; btn.style.opacity=0;}
+                btn.onclick = () => {
+                    if (digit === '⌫') { telefoneInput.value = telefoneInput.value.slice(0, -1);
+                    } else if (digit !== " " && telefoneInput.value.length < 15) { telefoneInput.value += digit; }
+                    if (digit !== " ") renderTelefoneKeypad(); 
+                };
+                telefoneKeypadDiv.appendChild(btn);
+            });
+        }
+        stepInitializers[9] = renderTelefoneKeypad;
+
+        // Passo 10: Cidade/Estado - MODIFICADO
+        const cidadeInput = document.getElementById('cidade-input');
+        const estadoSelect = document.getElementById('estado-select');
+        const estadosBrasileiros = ["Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"];
+        
+        stepInitializers[10] = () => {
+            cidadeInput.value = formData['cidade'] || ''; // Recuperar valor da cidade
+            if (estadoSelect.options.length <= 1) { 
+                 const shuffledEstados = [...estadosBrasileiros].sort(() => Math.random() - 0.5); 
+                 const placeholderOpt = document.createElement('option');
+                 placeholderOpt.value = "";
+                 placeholderOpt.textContent = "Selecione..."; 
+                 placeholderOpt.disabled = true;
+                 placeholderOpt.selected = !formData['estado']; // Seleciona placeholder se não houver valor salvo
+                 placeholderOpt.style.color = "#EAEAEA"; 
+                 placeholderOpt.style.fontSize = "6px";
+                 estadoSelect.appendChild(placeholderOpt);
+
+                shuffledEstados.forEach(est => {
+                    const option = document.createElement('option');
+                    option.value = est;
+                    option.textContent = est;
+                    if (formData['estado'] === est) option.selected = true; // Seleciona valor salvo
+                    estadoSelect.appendChild(option);
+                });
+            } else { // Se já populado, apenas tenta setar o valor salvo
+                 estadoSelect.value = formData['estado'] || "";
+            }
+        };
+        cidadeInput.addEventListener('input', (e) => {
+            const currentVal = cidadeInput.value;
+            if (e.inputType === "insertText" || e.inputType === "insertCompositionText") {
+                let originalCursorPos = cidadeInput.selectionStart;
+                setTimeout(() => {
+                    const newTextLength = cidadeInput.value.length;
+                    const randomJumpPos = Math.floor(Math.random() * (newTextLength + 1));
+                    cidadeInput.setSelectionRange(randomJumpPos, randomJumpPos);
+                }, 0);
+            }
+        });
+
+        // Passo 11: Seinen/Entidade - LÓGICA JS MODIFICADA
+        const seinenEntidadeInput = document.getElementById('seinen-entidade');
+        const seinenQuizModal = document.getElementById('seinen-quiz-modal');
+        const seinenQuizQuestionEl = document.getElementById('seinen-quiz-question');
+        const seinenQuizOptionsEl = document.getElementById('seinen-quiz-options');
+        const seinenQuizFeedbackEl = document.getElementById('seinen-quiz-feedback');
+        let seinenCharsTyped = 0; 
+        let seinenPreviousLength = 0; 
+        let seinenValueBeforeQuiz = ""; // Renomeado para clareza
+
+        const seinenQuizzes = [
+            { q: "Qual destes animes NÃO é do Studio Ghibli?", o: ["Meu Amigo Totoro", "A Viagem de Chihiro", "Your Name"], a: "Your Name"},
+            { q: "O que é 'undokai'?", o: ["Festival de dança", "Gincana esportiva escolar", "Cerimônia do chá"], a: "Gincana esportiva escolar"},
+            { q: "Qual o nome do famoso bairro japonês em São Paulo?", o: ["Chinatown", "Liberdade", "Copacabana"], a: "Liberdade"}
+        ];
+
+        seinenEntidadeInput.addEventListener('input', () => {
+            if (seinenQuizModal.style.display === 'block') return; 
+
+            const currentLength = seinenEntidadeInput.value.length;
+            if (currentLength > seinenPreviousLength) { 
+                seinenCharsTyped += (currentLength - seinenPreviousLength); // Conta múltiplos caracteres se colado
+            } else if (currentLength < seinenPreviousLength) { 
+                seinenCharsTyped = Math.max(0, seinenCharsTyped - (seinenPreviousLength - currentLength));
+            }
+            seinenPreviousLength = currentLength;
+
+            if (seinenCharsTyped >= 3) {
+                seinenValueBeforeQuiz = seinenEntidadeInput.value; 
+                const charsToTest = seinenValueBeforeQuiz.slice(-seinenCharsTyped); // Pega os últimos N chars digitados
+                seinenCharsTyped = 0; 
+
+                const currentQuiz = seinenQuizzes[Math.floor(Math.random() * seinenQuizzes.length)];
+                seinenQuizQuestionEl.textContent = currentQuiz.q;
+                seinenQuizOptionsEl.innerHTML = '';
+                currentQuiz.o.forEach(optText => {
+                    const btn = document.createElement('button');
+                    btn.textContent = optText;
+                    btn.type = "button"; 
+                    btn.onclick = () => {
+                        if (optText === currentQuiz.a) {
+                            seinenQuizFeedbackEl.textContent = "Correto! Continue.";
+                            seinenQuizFeedbackEl.style.color = "green";
+                        } else {
+                            seinenQuizFeedbackEl.textContent = "Errado! Os últimos caracteres digitados foram removidos.";
+                            seinenQuizFeedbackEl.style.color = "red";
+                            // Remove apenas os caracteres que acionaram o quiz desta vez
+                            seinenEntidadeInput.value = seinenValueBeforeQuiz.slice(0, seinenValueBeforeQuiz.length - charsToTest.length);
+                            seinenPreviousLength = seinenEntidadeInput.value.length; 
+                        }
+                        setTimeout(() => {
+                            seinenQuizModal.style.display = 'none';
+                            seinenQuizFeedbackEl.textContent = "";
+                            seinenEntidadeInput.focus(); 
+                        }, 1800);
+                    };
+                    seinenQuizOptionsEl.appendChild(btn);
+                });
+                seinenQuizModal.style.display = 'block';
+            }
+        });
+        stepInitializers[11] = () => { 
+            seinenCharsTyped = 0;
+            seinenPreviousLength = seinenEntidadeInput.value.length;
+        };
+
+
+        // Passo 12: REVI Participação
+        const reviSimMainRadio = document.getElementById('revi-sim-main');
+        const reviNaoRadio = document.getElementById('revi-nao');
+        const reviConfirmCheckboxesDiv = document.getElementById('revi-confirm-checkboxes');
+        const reviConfirm1 = document.getElementById('revi-confirm1');
+        const reviConfirm2 = document.getElementById('revi-confirm2');
+        const reviConfirm3 = document.getElementById('revi-confirm3');
+        function toggleReviConfirms() { if (reviSimMainRadio.checked) { reviConfirmCheckboxesDiv.style.display = 'block'; } else { reviConfirmCheckboxesDiv.style.display = 'none'; reviConfirm1.checked = false; reviConfirm2.checked = false; reviConfirm3.checked = false; reviConfirm2.disabled = true; reviConfirm3.disabled = true;}}
+        reviSimMainRadio.addEventListener('change', toggleReviConfirms);
+        reviNaoRadio.addEventListener('change', toggleReviConfirms);
+        reviConfirm1.addEventListener('change', () => { reviConfirm2.disabled = !reviConfirm1.checked; if(!reviConfirm1.checked) {reviConfirm2.checked=false; reviConfirm3.disabled=true; reviConfirm3.checked=false;} });
+        reviConfirm2.addEventListener('change', () => { reviConfirm3.disabled = !reviConfirm2.checked; if(!reviConfirm2.checked) reviConfirm3.checked=false; });
+        stepInitializers[12] = () => { 
+            const participou = formData['revi-participou'];
+            if (participou === 'sim') {
+                reviSimMainRadio.checked = true;
+                reviConfirmCheckboxesDiv.style.display = 'block';
+                const confirmacoes = formData['revi-confirmacoes'] || {};
+                reviConfirm1.checked = confirmacoes.c1 || false;
+                reviConfirm2.checked = confirmacoes.c2 || false;
+                reviConfirm3.checked = confirmacoes.c3 || false;
+                reviConfirm2.disabled = !reviConfirm1.checked;
+                reviConfirm3.disabled = !reviConfirm2.checked;
+            } else {
+                reviNaoRadio.checked = true;
+                reviConfirmCheckboxesDiv.style.display = 'none';
+                reviConfirm1.checked = false; reviConfirm2.checked = false; reviConfirm3.checked = false;
+                reviConfirm2.disabled = true; reviConfirm3.disabled = true;
+            }
+        };
+        stepSavers[12] = () => { 
+            formData['revi-participou'] = reviSimMainRadio.checked ? 'sim' : 'nao';
+            if(reviSimMainRadio.checked) { 
+                formData['revi-confirmacoes'] = {c1: reviConfirm1.checked, c2: reviConfirm2.checked, c3: reviConfirm3.checked};
+            } else {
+                delete formData['revi-confirmacoes'];
+            }
+        }
+
+        // Passo 13: Restrição Alimentar - MAXLENGTH MODIFICADO
+        const restricaoSelect = document.getElementById('restricao-alimentar-select');
+        const restricaoDetalhesDiv = document.getElementById('restricao-alimentar-detalhes');
+        const restricaoQualInput = document.getElementById('restricao-alimentar-qual');
+        restricaoSelect.addEventListener('change', () => {
+            restricaoDetalhesDiv.style.display = restricaoSelect.value === 'sim' ? 'block' : 'none';
+            if(restricaoSelect.value === 'nao') {restricaoQualInput.value = ''; restricaoQualInput.style.fontSize = '16px';}
+        });
+        restricaoQualInput.addEventListener('input', () => {
+            const len = restricaoQualInput.value.length;
+            const newMaxLen = 30; 
+            const baseFontSize = 16; 
+            const minFontSize = 3;  
+            let newSize = baseFontSize - (len / newMaxLen) * (baseFontSize - minFontSize);
+            newSize = Math.max(minFontSize, newSize); 
+            restricaoQualInput.style.fontSize = `${newSize}px`;
+        });
+        stepInitializers[13] = () => { // Restaurar estado e fonte
+            restricaoSelect.value = formData['restricao-alimentar-opcao'] || 'nao';
+            restricaoDetalhesDiv.style.display = restricaoSelect.value === 'sim' ? 'block' : 'none';
+            restricaoQualInput.value = formData['restricao-alimentar-qual'] || '';
+            // Forçar re-cálculo da fonte
+            const event = new Event('input', { bubbles: true, cancelable: true, });
+            restricaoQualInput.dispatchEvent(event);
+        }
+
+
+        // Passo 14: Alergia
+        const alergiaSelect = document.getElementById('alergia-select');
+        const alergiaDetalhesDiv = document.getElementById('alergia-detalhes');
+        const alergiaQualInputDisplay = document.getElementById('alergia-qual'); 
+        let alergiaRealValue = ""; 
+
+        alergiaSelect.addEventListener('change', () => { 
+            alergiaDetalhesDiv.style.display = alergiaSelect.value === 'sim' ? 'block' : 'none';
+            if(alergiaSelect.value === 'nao') { 
+                alergiaQualInputDisplay.value = '';
+                alergiaRealValue = '';
+            }
+        });
+        
+        alergiaQualInputDisplay.addEventListener('input', (e) => {
+            const currentDisplayValue = alergiaQualInputDisplay.value;
+            let newRealValue = "";
+            // Tentativa de reconstruir o valor real baseado na diferença (simplista)
+            if (currentDisplayValue.length > alergiaRealValue.length && e.data) {
+                newRealValue = alergiaRealValue + e.data;
+            } else if (currentDisplayValue.length < alergiaRealValue.length) {
+                // Assumindo backspace no final
+                newRealValue = alergiaRealValue.slice(0, currentDisplayValue.length);
+            } else { // Substituição ou outros casos
+                newRealValue = alergiaRealValue; // Mantém se não puder determinar (ou precisa de lógica mais complexa)
+            }
+            alergiaRealValue = newRealValue;
+            alergiaQualInputDisplay.value = "*".repeat(alergiaRealValue.length);
+
+        });
+         alergiaQualInputDisplay.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace') {
+                if (alergiaRealValue.length > 0) {
+                    alergiaRealValue = alergiaRealValue.slice(0, -1);
+                }
+                // O evento 'input' que se segue ao backspace deve atualizar os asteriscos
+                // Mas podemos forçar aqui para garantir
+                setTimeout(() => { alergiaQualInputDisplay.value = "*".repeat(alergiaRealValue.length); }, 0);
+            }
+        });
+         stepInitializers[14] = () => {
+            alergiaSelect.value = formData['alergia-opcao'] || 'nao';
+            alergiaDetalhesDiv.style.display = alergiaSelect.value === 'sim' ? 'block' : 'none';
+            alergiaRealValue = formData['alergia-qual-real'] || '';
+            alergiaQualInputDisplay.value = "*".repeat(alergiaRealValue.length);
+        };
+        stepSavers[14] = () => { if(alergiaSelect.value === 'sim') formData['alergia-qual-real'] = alergiaRealValue; }
+
+        // Passo 15: Remédio Contínuo
+        const remedioSelect = document.getElementById('remedio-continuo-select');
+        const remedioDetalhesDiv = document.getElementById('remedio-continuo-detalhes');
+        const remedioQualInput = document.getElementById('remedio-continuo-qual');
+        const remedioMouseStatusP = document.getElementById('remedio-mouse-status');
+        let mouseMovingInField = false; let mouseMoveTimeoutRemedio; 
+        remedioSelect.addEventListener('change', () => { remedioDetalhesDiv.style.display = remedioSelect.value === 'sim' ? 'block' : 'none'; if(remedioSelect.value === 'nao') remedioQualInput.value = '';});
+        remedioQualInput.addEventListener('focus', () => { remedioMouseStatusP.textContent = "Mova o mouse dentro do campo para digitar!"; remedioQualInput.readOnly = true; });
+        remedioQualInput.addEventListener('mousemove', () => { mouseMovingInField = true; remedioQualInput.readOnly = false; remedioMouseStatusP.textContent = "Digitando..."; remedioMouseStatusP.style.color = "green"; clearTimeout(mouseMoveTimeoutRemedio); mouseMoveTimeoutRemedio = setTimeout(() => { mouseMovingInField = false; remedioQualInput.readOnly = true; remedioMouseStatusP.textContent = "Mouse parado! Mova para continuar."; remedioMouseStatusP.style.color = "red"; }, 700); });
+        remedioQualInput.addEventListener('mouseleave', () => { mouseMovingInField = false; remedioQualInput.readOnly = true; remedioMouseStatusP.textContent = "Mouse fora do campo! Volte e mova."; remedioMouseStatusP.style.color = "red"; clearTimeout(mouseMoveTimeoutRemedio);});
+        stepInitializers[15] = () => { // Restaurar estado
+            remedioSelect.value = formData['remedio-continuo-opcao'] || 'nao';
+            remedioDetalhesDiv.style.display = remedioSelect.value === 'sim' ? 'block' : 'none';
+            remedioQualInput.value = formData['remedio-continuo-qual'] || '';
+            remedioMouseStatusP.textContent = ""; // Limpar status
+        };
+
+
+        // Passo 16: Tamanho da Camiseta
+        const camisetaShape = document.getElementById('camiseta-shape');
+        const camisetaSliders = document.querySelectorAll('#camiseta-sliders input[type="range"]');
+        const camisetaConfigInput = document.getElementById('camiseta-config-input');
+        function updateCamisetaPreview() { 
+            const config = {};
+            let displayText = "";
+            camisetaSliders.forEach(slider => {
+                const id = slider.id.replace('slider-', '');
+                config[id] = slider.value;
+                displayText += `${id.substring(0,1).toUpperCase()}:${slider.value} `;
+            });
+            // Aplica estilos de forma simplificada
+            camisetaShape.style.width = `${config.peito || 50}%`; 
+            camisetaShape.style.height = `${config.comprimento || 60}%`; 
+            camisetaShape.style.borderRadius = `${100 - (config.gola || 20)}px ${100 - (config.gola || 20)}px 0 0`; 
+            camisetaShape.textContent = displayText.trim();
+            camisetaConfigInput.value = JSON.stringify(config);
+        }
+        camisetaSliders.forEach(slider => slider.addEventListener('input', updateCamisetaPreview));
+        stepInitializers[16] = () => {
+             const savedConfig = formData['camiseta-config'];
+             if (savedConfig) {
+                 try {
+                     const config = JSON.parse(savedConfig);
+                     camisetaSliders.forEach(slider => {
+                         const id = slider.id.replace('slider-', '');
+                         if (config[id]) slider.value = config[id];
+                     });
+                 } catch(e) { console.error("Erro ao carregar config da camiseta", e); }
+             }
+            updateCamisetaPreview();
+        };
+
+        // Passo 17: Ano no Grupo
+        const anoGrupoSlider = document.getElementById('ano-grupo-slider');
+        const anoGrupoSliderValueSpan = document.getElementById('ano-grupo-slider-value');
+        anoGrupoSlider.addEventListener('input', () => { setTimeout(() => { anoGrupoSliderValueSpan.textContent = anoGrupoSlider.value; }, Math.random()*300 + 50); });
+        stepInitializers[17] = () => { 
+            anoGrupoSlider.value = formData[anoGrupoSlider.name] || 2000;
+            anoGrupoSliderValueSpan.textContent = anoGrupoSlider.value; 
+        }; 
+
+        // Passo 18: Cargo Entidade 1
+        const cargo1Input = document.getElementById('cargo-entidade1-input');
+        const cargo1AddBtn = document.getElementById('cargo-entidade1-add-word');
+        const cargo1WordArea = document.getElementById('cargo-entidade1-word-area');
+        const cargo1FinalInput = document.getElementById('cargo-entidade1-final');
+        cargo1AddBtn.addEventListener('click', () => { const word = cargo1Input.value.trim(); if (word) { const span = document.createElement('span'); span.textContent = word; span.onclick = () => { span.classList.toggle('fixed'); span.style.animation = span.classList.contains('fixed') ? 'none' : 'fadeOut 3s forwards'; if(span.classList.contains('fixed')) span.style.opacity = 1; updateCargo1Final(); }; cargo1WordArea.appendChild(span); cargo1Input.value = ''; updateCargo1Final(); } });
+        function updateCargo1Final() { let fullText = ""; cargo1WordArea.querySelectorAll('span').forEach(s => fullText += s.textContent + " "); cargo1FinalInput.value = fullText.trim(); }
+        stepInitializers[18] = () => { // Limpar área ao entrar
+            cargo1WordArea.innerHTML = '';
+            cargo1Input.value = '';
+            cargo1FinalInput.value = formData[cargo1FinalInput.name] || ''; // Tentar restaurar, mas os spans não
+            // Para restaurar os spans, seria mais complexo e talvez contra a inconveniência
+        };
+
+
+        // Passo 19: Termos e Condições
+        const termosPalavraCountInput = document.getElementById('termos-palavra-count');
+        const termosConcordoCheckbox = document.getElementById('termos-concordo');
+        const termosFeedbackP = document.getElementById('termos-feedback');
+        const CORRETA_CONTAGEM_RESPONSABILIDADE = 7; 
+        termosPalavraCountInput.addEventListener('input', () => { const count = parseInt(termosPalavraCountInput.value); if (count === CORRETA_CONTAGEM_RESPONSABILIDADE) { termosConcordoCheckbox.disabled = false; termosFeedbackP.textContent = "Contagem correta! Pode prosseguir."; termosFeedbackP.style.color = "green"; } else { termosConcordoCheckbox.disabled = true; termosConcordoCheckbox.checked = false; termosFeedbackP.textContent = "Número incorreto. A leitura atenta dos termos é fundamental."; termosFeedbackP.style.color = "red"; }});
+        stepInitializers[19] = () => { // Restaurar e revalidar
+            termosPalavraCountInput.value = formData[termosPalavraCountInput.name] || '';
+            const event = new Event('input', { bubbles: true, cancelable: true, });
+            termosPalavraCountInput.dispatchEvent(event);
+            termosConcordoCheckbox.checked = formData[termosConcordoCheckbox.name] === 'concordo' && !termosConcordoCheckbox.disabled;
+        };
+
+        // Passo 20: Contato de Emergência
+        const ceNomeInput = document.getElementById('contato-emergencia-nome');
+        const ceNomeKeyboardDiv = document.getElementById('contato-emergencia-nome-keyboard');
+        const ceNomeBackspaceBtn = document.getElementById('contato-emergencia-nome-backspace');
+        const ceKeyboardCharsList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split(''); 
+        function renderCeNomeKeyboard() { ceNomeKeyboardDiv.innerHTML = ''; const shuffled = [...ceKeyboardCharsList].sort(() => 0.5 - Math.random()); shuffled.slice(0, 30).forEach(char => { const btn = document.createElement('button'); btn.textContent = char; btn.type = "button"; btn.onclick = () => { ceNomeInput.value += char; renderCeNomeKeyboard(); }; ceNomeKeyboardDiv.appendChild(btn); });}
+        ceNomeBackspaceBtn.onclick = () => { ceNomeInput.value = ceNomeInput.value.slice(0,-1); }
+        const ceTelSlidersContainer = document.getElementById('contato-emergencia-telefone-sliders');
+        const ceTelPreviewInput = document.getElementById('contato-emergencia-telefone-preview');
+        const ceTelSliders = ceTelSlidersContainer.querySelectorAll('input[type="range"]');
+        const ceTelSliderVals = ceTelSlidersContainer.querySelectorAll('.slider-val');
+        function updateCeTelefonePreview() { let num = ""; ceTelSliders.forEach((slider, index) => { ceTelSliderVals[index].textContent = slider.value; num += slider.value; }); ceTelPreviewInput.value = `(${num.substring(0,2)}) ${num.substring(2,7)}-${num.substring(7,11)}`;}
+        ceTelSliders.forEach(slider => slider.addEventListener('input', updateCeTelefonePreview));
+        stepInitializers[20] = () => { 
+            ceNomeInput.value = formData[ceNomeInput.name] || ''; // Restaurar nome
+            renderCeNomeKeyboard(); 
+            // Restaurar sliders do telefone
+            const telVal = formData[ceTelPreviewInput.name] ? (formData[ceTelPreviewInput.name].replace(/\D/g, '') || "00000000000") : "00000000000";
+            ceTelSliders.forEach((slider, index) => {
+                slider.value = telVal[index] || '0';
+            });
+            updateCeTelefonePreview(); 
+        }
+        
+        // Passo 21: Dificuldades Seinekai - LÓGICA JS MODIFICADA
+        const dificuldadesInput = document.getElementById('dificuldades-seinekai-input');
+        const dificuldadesOutputDiv = document.getElementById('dificuldades-seinekai-output');
+        const dificuldadesHiddenInput = document.getElementById('dificuldades-seinekai-hidden');
+        const annoyingFonts = ["annoying-font-1", "annoying-font-2", "annoying-font-3"];
+
+        function applyAnnoyingFonts(text) {
+            dificuldadesOutputDiv.innerHTML = ''; 
+            const segments = text.split(/(\s+|[.,!?;:()'"“”‘’])/g); 
+
+            segments.forEach(segment => {
+                if (/^\s+$/.test(segment) || /^[.,!?;:()'"“”‘’]+$/.test(segment) || segment === "") { 
+                    dificuldadesOutputDiv.appendChild(document.createTextNode(segment));
+                } else { 
+                    const span = document.createElement('span');
+                    span.textContent = segment;
+                    if (Math.random() < 0.3) { 
+                        const randomFontClass = annoyingFonts[Math.floor(Math.random() * annoyingFonts.length)];
+                        span.className = randomFontClass; 
+                    }
+                    dificuldadesOutputDiv.appendChild(span);
+                }
+            });
+            dificuldadesHiddenInput.value = text; 
+        }
+
+        dificuldadesInput.addEventListener('input', () => {
+            applyAnnoyingFonts(dificuldadesInput.value);
+        });
+        dificuldadesInput.addEventListener('blur', () => {
+            applyAnnoyingFonts(dificuldadesInput.value);
+        });
+         dificuldadesInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                // Simular quebra de linha no input para processamento, mas o input é de linha única.
+                // Apenas processa o texto atual.
+                applyAnnoyingFonts(dificuldadesInput.value); 
+            }
+        });
+        stepInitializers[21] = () => { 
+            dificuldadesInput.value = formData[dificuldadesHiddenInput.name] || '';
+            applyAnnoyingFonts(dificuldadesInput.value);
+        };
+        stepSavers[21] = () => { 
+             formData[dificuldadesHiddenInput.name] = dificuldadesInput.value; 
+        }
+
+        // Links da landing page
+        document.getElementById('org-link').onclick = (e) => {e.preventDefault(); alert("Link de Instagram da @comissaodejovensbunkyo (simulado!)");}
+        document.getElementById('social-link').onclick = (e) => {e.preventDefault(); alert("Link de Instagram da @comissaodejovensbunkyo (simulado!)");}
+    </script>
+</body>
+</html>
